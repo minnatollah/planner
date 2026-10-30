@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://daily-planner-stats.goatcounter.com; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#4f6a47">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="manifest" href="manifest.webmanifest">
@@ -243,10 +245,68 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
 [data-theme=dark] .save{box-shadow:0 4px 14px rgba(0,0,0,.35)}
 [data-theme=dark] .tab[aria-selected=true]{box-shadow:none}
 [data-theme=dark] .qwrap{background:rgba(10,8,6,.6)}
+/* ===== header, day line, bottom nav, buttons (v17) ===== */
+:root{--btn:#2b2824;--btn-ink:#f6efe2}
+:root[data-theme="dark"]{--btn:#efe6d6;--btn-ink:#1d1915}
+.top{padding-bottom:6px;border-bottom:1px solid transparent}
+.brand{min-height:44px;align-items:center}
+.brand h1{font-size:30px;line-height:1}
+.tools{display:flex;gap:2px;background:var(--paper);border:1px solid var(--faint);border-radius:999px;padding:3px}
+.icon svg{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.icon[aria-current=page]{background:var(--faint)}
+.icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--ink)}
+.icon:active{background:var(--faint)}
+.icon svg{width:20px;height:20px}
+
+
+#themeBtn .moon,[data-theme=dark] #themeBtn .sun{display:none}
+[data-theme=dark] #themeBtn .moon{display:block}
+
+.dayline{display:flex;align-items:center;gap:8px;margin-top:8px}
+.dayline[hidden]{display:none!important}
+.dayline .nav{width:34px;height:34px;font-size:18px;background:transparent;border:1px solid var(--line)}
+.dayline .when{display:flex;align-items:baseline;justify-content:center;gap:10px;flex-wrap:wrap}
+.dayline .when b{display:inline;font-size:26px;line-height:1.1}
+.hello{display:flex;flex-direction:column;align-items:center;gap:2px;margin:6px 0 14px;min-height:30px}
+.greet{font-family:var(--hand);font-size:21px;color:var(--soft);line-height:1.3;margin:0}
+.greetEdit{border:0;border-bottom:1px solid var(--leaf);background:transparent;text-align:center;font-size:17px;padding:2px 6px;max-width:220px;color:var(--ink)}
+.greetEdit:focus{outline:none}
+.backtoday{margin:0}
+.saved{font-size:12px;color:var(--leaf-deep);opacity:0;transition:opacity .4s;height:16px}
+.saved.on{opacity:.85}
+body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:8;display:flex;justify-content:space-around;background:var(--paper);border-top:1px solid var(--line);
+  padding:6px max(16px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.bottomnav button{flex:1;max-width:140px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;color:var(--soft);font-size:12px;font-weight:600;position:relative}
+.bottomnav svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.bottomnav button[aria-current=page]{color:var(--ink)}
+.bottomnav button[aria-current=page]::after{content:"";position:absolute;top:-7px;width:22px;height:2px;border-radius:2px;background:var(--leaf)}
+body.typing .bottomnav{transform:translateY(100%);transition:transform .2s}
+.bottomnav{transition:transform .2s}
+.toast{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+/* buttons: ink and paper, green is kept for things you tick and fill */
+.save{border-radius:12px;box-shadow:none;letter-spacing:.01em}
+[data-theme=dark] .save{box-shadow:none}
+.ghost{border:0;background:transparent;color:var(--soft);padding:9px 14px;font-weight:600}
+.switch .tabs{background:transparent;border:0;gap:18px;padding:0}
+.switch .tab{padding:4px 0;border-radius:0;border-bottom:2px solid transparent;background:transparent}
+.switch .tab[aria-selected=true]{background:transparent;color:var(--ink);border-bottom-color:var(--leaf)}
+#viewBackup .sheet{margin-top:14px}
+#viewBackup .backup p{max-width:34em;margin-inline:auto}
+.tools{position:relative}
+.menu{position:absolute;top:calc(100% + 8px);inset-inline-end:0;z-index:12;min-width:200px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 10px 30px rgba(30,25,20,.14);display:grid}
+[data-theme=dark] .menu{box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.menu button{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;font-size:15px;font-weight:600;color:var(--ink);text-align:start}
+.menu button:active,.menu button:focus-visible{background:var(--faint)}
+.menu svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--soft);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#menuBtn svg{fill:currentColor;stroke:none}
+#menuBtn[aria-expanded=true]{background:var(--faint)}
+#viewQuotes .sheet{margin-top:14px}
+.legal{max-width:980px;margin:28px auto 0;padding:0 16px;text-align:center;color:var(--soft);font-size:11.5px;line-height:1.7;opacity:.8}
 /* Arabic typography: Ruqaa for headings, Plex for interface, Amiri for writing and quotes */
 [lang=ar] .card h2{font-size:23px;line-height:1.55;margin-bottom:4px}
 [lang=ar] .brand h1{font-size:30px;line-height:1.35}
-[lang=ar] .when b{font-size:26px;line-height:1.5}
+[lang=ar] .when b{font-size:24px;line-height:1.5}
 [lang=ar] .greet{font-size:19px;line-height:1.7;margin-top:0}
 [lang=ar] .calhead b{font-size:23px;line-height:1.5}
 [lang=ar] .qcard .eyebrow,[lang=ar] .memo .lbl{font-size:19px;line-height:1.7}
@@ -290,27 +350,36 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
 <header class="top">
   <div class="brand">
     <h1 data-t="brand">Daily Planner</h1>
-    <div class="tabs" role="tablist">
-      <button class="tab" role="tab" id="tabToday" aria-selected="true" type="button" data-t="today">Today</button>
-      <button class="tab" role="tab" id="tabPast" aria-selected="false" type="button" data-t="past">Past days</button>
+    <div class="tools">
+      <button class="icon" id="qOpen" type="button" aria-label="Today's quote"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7.5c-2.4.6-4 2.5-4 5V17h4.5v-4.5H8c.1-1.4 1-2.5 2.4-3M18.5 7.5c-2.4.6-4 2.5-4 5V17H19v-4.5h-2.5c.1-1.4 1-2.5 2.4-3"/></svg></button>
+      <button class="icon" id="themeBtn" type="button" aria-label="Night mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.8v2M12 19.2v2M2.8 12h2M19.2 12h2M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M5.5 18.5l1.4-1.4M17.1 6.9l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/></svg></button>
+      <button class="icon" id="menuBtn" type="button" aria-label="More" aria-haspopup="menu" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/></svg></button>
+      <div class="menu" id="menu" role="menu" hidden>
+        <button type="button" role="menuitem" id="mQuotes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h12v15l-6-3.5-6 3.5z"/></svg><span data-t="myQuotes">My Quotes</span></button>
+        <button type="button" role="menuitem" id="tabBackup"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18.5a4.5 4.5 0 0 1-.6-9 6 6 0 0 1 11.4 1.4A3.8 3.8 0 0 1 17.5 18.5z"/><path d="M12 15.5v-5M9.8 12.6 12 10.4l2.2 2.2"/></svg><span data-t="backup">Backup</span></button>
+        <button type="button" role="menuitem" id="langBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.4 3.4 5.2 3.4 8.5s-1.1 6.1-3.4 8.5M12 3.5C9.7 5.9 8.6 8.7 8.6 12s1.1 6.1 3.4 8.5"/></svg><span id="langLabel">العربية</span></button>
+        <button type="button" role="menuitem" id="mName"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5h4l10-10-4-4-10 10z"/><path d="M13 7l4 4"/></svg><span data-t="changeName">Change name</span></button>
+      </div>
     </div>
+  </div>
+  <div class="dayline" id="dayline">
+    <button class="nav" id="prev" type="button" aria-label="Previous day">&#8249;</button>
+    <div class="when">
+      <b id="dayname">Thursday</b>
+      <label class="datepick" for="date"><span id="dateText"></span><input type="date" id="date" aria-label="Pick a date"></label>
+    </div>
+    <button class="nav" id="next" type="button" aria-label="Next day">&#8250;</button>
   </div>
 </header>
 
 <main class="wrap">
   <section id="viewDay">
-    <p class="greet" id="greet"></p>
-    <div class="datebar">
-      <button class="nav" id="prev" type="button" aria-label="Previous day">&#8249;</button>
-      <div class="when">
-        <b id="dayname">Thursday</b>
-        <label class="datepick" for="date"><span id="dateText"></span><input type="date" id="date" aria-label="Pick a date"></label>
-        <button class="backtoday" id="backToday" type="button" data-t="backToday" hidden>Back to today</button>
-      </div>
-      <button class="nav" id="next" type="button" aria-label="Next day">&#8250;</button>
+    <div class="hello">
+      <button class="greet" id="greet" type="button"></button>
+      <input class="greetEdit" id="greetEdit" dir="auto" maxlength="30" autocomplete="given-name" hidden aria-label="Your name">
+      <button class="backtoday" id="backToday" type="button" data-t="backToday" hidden>Back to today</button>
+      <span class="saved" id="savedMark" aria-live="polite"></span>
     </div>
-
-    <button class="qbtn" id="qOpen" type="button" data-t="qbtn">Today's quote</button>
     <div class="grid">
       <div class="col">
         <div class="card must"><h2 data-t="must">What Matters Today</h2><div id="must"></div></div>
@@ -350,6 +419,9 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
         <div id="chart" dir="ltr"></div>
       </div>
     </div>
+  </section>
+
+  <section id="viewQuotes" hidden>
     <div class="sheet">
     <div class="block mine">
       <h2 data-t="myQuotes">My Quotes</h2>
@@ -361,14 +433,11 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
       </form>
       <ul id="mineList"></ul>
     </div>
-    <div class="block">
-      <h2 data-t="settings">Settings</h2>
-      <div class="rows">
-        <label class="srow" for="setName"><span data-t="nameLabel">Your name</span><input id="setName" dir="auto" maxlength="30" autocomplete="given-name"></label>
-        <div class="srow"><span>Language · اللغة</span><div class="opts" role="group" aria-label="Language"><button type="button" data-lang="en">English</button><button type="button" data-lang="ar">العربية</button></div></div>
-        <div class="srow"><span data-t="appearance">Night mode</span><div class="opts" role="group" aria-label="Night mode"><button type="button" data-theme-opt="system" data-t="thAuto">Auto</button><button type="button" data-theme-opt="light" data-t="thOff">Off</button><button type="button" data-theme-opt="dark" data-t="thOn">On</button></div></div>
-      </div>
     </div>
+  </section>
+
+  <section id="viewBackup" hidden>
+    <div class="sheet">
     <div class="block backup">
       <h2 data-t="backup">Backup</h2>
       <p data-t="backupText">Your days live on this phone only. Save a backup now and then and keep it somewhere safe. The file is made for the app to read when you restore, not for reading yourself.</p>
@@ -381,8 +450,12 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
     </div>
   </section>
 </main>
+<footer class="legal"><span data-t="legal">© 2026 Daily Planner. All rights reserved.</span><br><span data-t="legalQuran">Quran text: The Noble Qur'an Encyclopedia (quranenc.com)</span></footer>
 
-<div class="savebar" id="savebar"><button class="save" id="save" type="button" data-t="save">Save day</button></div>
+<nav class="bottomnav" aria-label="Sections">
+  <button type="button" id="tabToday" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></svg><span data-t="today">Today</span></button>
+  <button type="button" id="tabPast"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg><span data-t="past">Past days</span></button>
+</nav>
 <div class="toast" id="toast" role="status" hidden></div>
 <div class="qwrap" id="qWrap" hidden role="dialog" aria-modal="true" aria-labelledby="qEyebrow">
   <div class="qcard">
@@ -436,14 +509,14 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
       noNotes:"No notes",photo1:"1 photo",photoN:"{n} photos",myQuotes:"My Quotes",mineHint:"Lines you add here join the daily quotes.",
       minePh:"The quote or verse. New line between the two halves of a verse",mineSrcPh:"Who said it",addQuote:"Add quote",backup:"Backup",
       backupText:"Your days live on this phone only. Save a backup now and then and keep it somewhere safe. The file is made for the app to read when you restore, not for reading yourself.",dl:"Download backup",restore:"Restore from backup",
-      changePhoto:"Change photo",photoChanged:"Photo changed",settings:"Settings",nameLabel:"Your name",appearance:"Night mode",thAuto:"Auto",thOff:"Off",thOn:"On",keep:"Save to Quote of the Day",close:"Close",openDay:"Open that day",fromDays:"From your days",
+      changePhoto:"Change photo",changeName:"Change name",legal:"© 2026 Daily Planner. All rights reserved.",legalQuran:"Quran text: The Noble Qur'an Encyclopedia (quranenc.com)",addTaskFirst:"Write the task first, then tick it",saved:"Saved",editName:"Tap to change your name",photoChanged:"Photo changed",settings:"Settings",nameLabel:"Your name",appearance:"Night mode",thAuto:"Auto",thOff:"Off",thOn:"On",keep:"Save to Quote of the Day",close:"Close",openDay:"Open that day",fromDays:"From your days",
       ago7:"A week ago",ago30:"A month ago",ago91:"Three months ago",ago365:"A year ago",kGrateful:"Grateful for",
       morning:"Good morning",afternoon:"Good afternoon",evening:"Good evening",greetName:"{g}, {name}",backToday:"Back to today",
       wrote1:"You wrote on 1 day this month",wroteN:"You wrote on {n} days this month",welcome:"Welcome",callYou:"What should I call you?",start:"Start",
       daySaved:"Day saved",nothing:"Nothing to save yet",cantSave:"Could not save on this phone",adding:"Adding photo...",photoAdded:"Photo added",photosAdded:"Photos added",
       notPhoto:"That file is not a photo",photoFail:"Could not save the photo",backupDone:"Backup downloaded",restored:"Restored {n} days",noDays:"No days found in that file",
       notBackup:"That file is not a planner backup",quoteAdded:"Quote added",quoteSaved:"Saved to Quote of the Day",nameSaved:"Name saved"},
-    ar:{brand:"يومياتي",today:"اليوم",past:"أيامي",qbtn:"اقتباس اليوم",must:"ما لا يحتمل التأجيل",todo:"مهامّي",quote:"كلماتٌ علِقت بي",
+    ar:{brand:"مدونتي",today:"اليوم",past:"أيامي",qbtn:"اقتباس اليوم",must:"الأهمّ فالمهمّ",todo:"مهامّي",quote:"كلماتٌ علِقت بي",
       water:"شربت ماء كفاية؟",grateful:"الحمد لله على…",rate:"حصاد اليوم",myday:"كيف كان يومي",photos:"لحظات من اليوم",addPhoto:"إضافة صورة",
       upTo3:"حتى 3 صور",full3:"3 من 3 صور",remove:"حذف",sure:"تأكيد الحذف",save:"حفظ اليوم",cups:"{n} من 8",list:"قائمة",calendar:"تقويم",
       monthFelt:"حصاد الشهر",avg:"المعدّل <b>{a}</b> من 5",rated:"أيام مقيّمة: <b>{n}</b>",legend5:"5 نجوم",
@@ -451,7 +524,7 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
       noNotes:"بلا ملاحظات",photo1:"صورة واحدة",photoN:"{n} صور",myQuotes:"ممّا راقني",mineHint:"ما تضيفه هنا ينضمّ إلى اقتباسات كل يوم.",
       minePh:"الاقتباس أو البيت. سطر جديد بين شطري البيت",mineSrcPh:"القائل أو المصدر",addQuote:"إضافة اقتباس",backup:"النسخة الاحتياطية",
       backupText:"أيامك محفوظة على هذا الهاتف فقط. نزّل نسخة احتياطية بين حين وآخر واحفظها في مكان آمن. هذا الملف يقرؤه التطبيق عند الاسترجاع، وليس مخصّصًا للقراءة.",dl:"تنزيل نسخة احتياطية",restore:"استرجاع من نسخة",
-      changePhoto:"تغيير الصورة",photoChanged:"تغيّرت الصورة",settings:"الإعدادات",nameLabel:"الاسم",appearance:"الوضع الليلي",thAuto:"تلقائي",thOff:"إيقاف",thOn:"تشغيل",keep:"حفظ في اقتباس اليوم",close:"إغلاق",openDay:"فتح ذلك اليوم",fromDays:"من أيامك",
+      changePhoto:"تغيير الصورة",changeName:"تغيير الاسم",legal:"© 2026 مدونتي. جميع الحقوق محفوظة.",legalQuran:"نص القرآن الكريم: موسوعة القرآن الكريم (quranenc.com)",addTaskFirst:"اكتب المهمة أولًا، ثم ضع الصح",saved:"حُفظ",editName:"اضغط لتغيير الاسم",photoChanged:"تغيّرت الصورة",settings:"الإعدادات",nameLabel:"الاسم",appearance:"الوضع الليلي",thAuto:"تلقائي",thOff:"إيقاف",thOn:"تشغيل",keep:"حفظ في اقتباس اليوم",close:"إغلاق",openDay:"فتح ذلك اليوم",fromDays:"من أيامك",
       ago7:"قبل أسبوع",ago30:"قبل شهر",ago91:"قبل ثلاثة أشهر",ago365:"قبل سنة",kGrateful:"الحمد لله على",
       morning:"صباح الخير",afternoon:"مساء الخير",evening:"مساء الخير",greetName:"{g} يا {name}",backToday:"العودة إلى اليوم",
       wrote1:"كتبت في يوم واحد هذا الشهر",wroteN:"كتبت في {d} هذا الشهر",welcome:"أهلًا بك",callYou:"بماذا أناديك؟",start:"ابدأ",
@@ -562,10 +635,12 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
     photos=[];paintPhotos();loadPhotos(dateInput.value);
     paintDate();requestAnimationFrame(growAll);
   }
+  let savedT;
+  function markSaved(){const m=$("savedMark");m.textContent=t("saved");m.classList.add("on");clearTimeout(savedT);savedT=setTimeout(()=>m.classList.remove("on"),1600);}
   function persist(){
     if(!hasContent(data)){try{localStorage.removeItem(PREFIX+dateInput.value);}catch(e){}return true;}
     data.savedAt=new Date().toISOString();
-    return store.set(PREFIX+dateInput.value,data);
+    const ok=store.set(PREFIX+dateInput.value,data);if(ok)markSaved();return ok;
   }
   let autoT;
   function changed(){dirty=true;clearTimeout(autoT);autoT=setTimeout(()=>{persist();dirty=false;},800);}
@@ -586,13 +661,18 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
   $("backToday").onclick=()=>go(iso(new Date()));
   document.addEventListener("click",e=>{
     const c=e.target.closest("[data-c]");
-    if(c){const on=c.getAttribute("aria-pressed")!=="true";c.setAttribute("aria-pressed",on);data[c.dataset.c]=on;const r=c.closest(".row");if(r)r.classList.toggle("done",on);paintCount();changed();return;}
+    if(c){
+      // a task box can only be ticked once something is written next to it
+      const m=/^(p|t)c(\d)$/.exec(c.dataset.c);
+      if(m&&c.getAttribute("aria-pressed")!=="true"&&!(data[m[1]+m[2]]||"").trim()){
+        toast(t("addTaskFirst"));const f=document.querySelector('[data-k="'+m[1]+m[2]+'"]');if(f)f.focus();return;}
+      const on=c.getAttribute("aria-pressed")!=="true";c.setAttribute("aria-pressed",on);data[c.dataset.c]=on;const r=c.closest(".row");if(r)r.classList.toggle("done",on);paintCount();changed();return;}
     const s=e.target.closest(".star");
     if(s){const v=+s.dataset.v;data.stars=data.stars===v?0:v;paintStars();changed();}
   });
 
   function toast(msg){const t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,1800);}
-  $("save").onclick=()=>{clearTimeout(autoT);const ok=persist();dirty=false;toast(ok?(hasContent(data)?t("daySaved"):t("nothing")):t("cantSave"));};
+
 
   function go(iso2){clearTimeout(autoT);if(dirty)persist();dateInput.value=iso2;load();window.scrollTo(0,0);}
   $("prev").onclick=()=>{const d=fromIso(dateInput.value);d.setDate(d.getDate()-1);go(iso(d));};
@@ -601,14 +681,23 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
 
   // tabs
   function show(which){
-    const past=which==="past";
-    $("viewDay").hidden=past;$("viewPast").hidden=!past;$("savebar").hidden=past;
-    $("tabToday").setAttribute("aria-selected",!past);$("tabPast").setAttribute("aria-selected",past);
-    if(past){if(dirty){clearTimeout(autoT);persist();dirty=false;}renderPast();}
+    if(which!=="day"&&dirty){clearTimeout(autoT);persist();dirty=false;}
+    $("viewDay").hidden=which!=="day";$("viewPast").hidden=which!=="past";$("viewBackup").hidden=which!=="backup";$("viewQuotes").hidden=which!=="quotes";
+    $("dayline").hidden=which!=="day";
+    [["tabToday","day"],["tabPast","past"]].forEach(([id,w])=>{if(w===which)$(id).setAttribute("aria-current","page");else $(id).removeAttribute("aria-current");});
+    if(which==="past")renderPast();
     window.scrollTo(0,0);
   }
   $("tabToday").onclick=()=>show("day");
   $("tabPast").onclick=()=>show("past");
+  $("tabBackup").onclick=()=>{closeMenu();show("backup");};
+  $("mQuotes").onclick=()=>{closeMenu();show("quotes");};
+  $("mName").onclick=()=>{closeMenu();show("day");setTimeout(()=>$("greet").click(),60);};
+  // the menu sits in the history like the photo and the quote, so the back button closes it
+  function openMenu(){$("menu").hidden=false;$("menuBtn").setAttribute("aria-expanded","true");pushLayer(()=>{$("menu").hidden=true;$("menuBtn").setAttribute("aria-expanded","false");});const f=$("menu").querySelector("button");if(f)f.focus();}
+  function closeMenu(){if(!$("menu").hidden)popLayer();}
+  $("menuBtn").onclick=e=>{e.stopPropagation();$("menu").hidden?openMenu():closeMenu();};
+  document.addEventListener("click",e=>{if(!$("menu").hidden&&!e.target.closest("#menu,#menuBtn"))closeMenu();});
 
   // list or calendar
   let mode="list";try{mode=localStorage.getItem("plannerui:mode")||"list";}catch(e){}
@@ -633,7 +722,7 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
     const todayIso=iso(new Date()),ratings=[];
     for(let d=1;d<=n;d++){
       const key=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
-      const v=store.get(PREFIX+key),st=v&&v.stars||0;
+      const v=store.get(PREFIX+key),st=Math.max(0,Math.min(5,Number(v&&v.stars)|0));
       const b=document.createElement("button");b.type="button";b.className="cell";b.textContent=d;
       if(hasContent(v))b.classList.add(st?"s"+st:"has");
       if(key===todayIso)b.classList.add("today");
@@ -674,10 +763,10 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
       const dt=fromIso(x.iso),m=dt.toLocaleDateString(loc(),{month:"long",year:"numeric"});
       if(m!==lastMonth){const h=document.createElement("div");h.className="month";h.textContent=m;list.appendChild(h);lastMonth=m;}
       const preview=x.d.p0||x.d.t0||x.d.quote||x.d.grateful||(x.d.photos?(x.d.photos>1?t("photoN",{n:x.d.photos}):t("photo1")):"");
-      let stars="";for(let i=1;i<=5;i++)stars+=star(i<=(x.d.stars||0)?"on":"");
+      let stars="";for(let i=1;i<=5;i++)stars+=star(i<=(Number(x.d.stars)|0)?"on":"");
       const b=document.createElement("button");b.type="button";b.className="day";
       b.innerHTML='<div class="d"><b>'+dt.getDate()+'</b><span>'+dt.toLocaleDateString(loc(),{weekday:"short"})+'</span></div>'+
-        '<div class="t"><strong></strong><em dir="auto"></em></div><div class="mini" aria-label="'+(x.d.stars||0)+' of 5 stars">'+stars+'</div>';
+        '<div class="t"><strong></strong><em dir="auto"></em></div><div class="mini" aria-label="'+(Number(x.d.stars)|0)+' of 5 stars">'+stars+'</div>';
       b.querySelector("strong").textContent=dt.toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"short"});
       b.querySelector("em").textContent=preview.split("\n")[0]||t("noNotes");
       b.onclick=()=>{show("day");go(x.iso);};
@@ -699,16 +788,28 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
     const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
     setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);toast(t("backupDone"));
   };
+  // a backup file could come from anywhere, so every value is checked and reduced to plain text, true/false or a small number
+  function cleanDay(d){
+    const out={};if(!d||typeof d!=="object")return out;
+    Object.keys(d).forEach(k=>{const v=d[k];
+      if(/^(p[0-2]|t[0-5]|quote|grateful|review)$/.test(k)&&typeof v==="string")out[k]=v.slice(0,4000);
+      else if(/^(pc[0-2]|tc[0-5]|w[0-7])$/.test(k))out[k]=v===true;
+      else if(k==="stars"){const n=Math.round(Number(v));out.stars=n>=1&&n<=5?n:0;}
+      else if(k==="photos"){const n=Math.round(Number(v));out.photos=n>=1&&n<=3?n:0;}
+      else if(k==="savedAt"&&typeof v==="string"&&!isNaN(Date.parse(v)))out.savedAt=v;});
+    return out;
+  }
+  const okPhoto=x=>typeof x==="string"&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(x)&&x.length<3e6;
   $("importBtn").onclick=()=>$("importFile").click();
   $("importFile").onchange=e=>{
     const f=e.target.files[0];if(!f)return;
     const r=new FileReader();
     r.onload=async()=>{
       try{const j=JSON.parse(r.result);if(!j||j.app!=="daily-planner")throw new Error("not a backup");const days=j.days||{};let n=0;
-        Object.keys(days).forEach(k=>{if(k.indexOf(PREFIX)===0&&days[k]){store.set(k,days[k]);n++;}});
-        if(Array.isArray(j.myquotes)&&j.myquotes.length){const have=getMine(),seen=new Set(have.map(q=>q.t));j.myquotes.forEach(q=>{if(q&&q.t&&!seen.has(q.t))have.push({t:String(q.t),s:String(q.s||"")});});setMine(have);renderMine();}
-        const ph=j.photos||{};for(const k of Object.keys(ph)){if(/^\d{4}-\d\d-\d\d$/.test(k)&&Array.isArray(ph[k]))await pdb.put(k,ph[k].slice(0,3));}
-        if(j.profile&&!profile.name&&j.profile.name){profile.name=String(j.profile.name).slice(0,30);saveProfile();}
+        Object.keys(days).forEach(k=>{if(/^planner:\d{4}-\d\d-\d\d$/.test(k)&&days[k]){store.set(k,cleanDay(days[k]));n++;}});
+        if(Array.isArray(j.myquotes)&&j.myquotes.length){const have=getMine(),seen=new Set(have.map(q=>q.t));j.myquotes.slice(0,500).forEach(q=>{if(q&&typeof q.t==="string"&&q.t.trim()&&!seen.has(q.t))have.push({t:q.t.slice(0,1000),s:String(q.s||"").slice(0,200)});});setMine(have);renderMine();}
+        const ph=j.photos&&typeof j.photos==="object"?j.photos:{};for(const k of Object.keys(ph)){if(/^\d{4}-\d\d-\d\d$/.test(k)&&Array.isArray(ph[k])){const ok=ph[k].filter(okPhoto).slice(0,3);if(ok.length)await pdb.put(k,ok);}}
+        if(j.profile&&!profile.name&&typeof j.profile.name==="string"){profile.name=j.profile.name.slice(0,30);saveProfile();}
         renderPast();load();applyLang();toast(n?t("restored",{n}):t("noDays"));
       }catch(err){toast(t("notBackup"));}
       e.target.value="";
@@ -868,27 +969,32 @@ textarea.ln{resize:none;overflow:hidden;height:36px;line-height:24px;display:blo
     document.querySelectorAll("[data-tp]").forEach(el=>{el.placeholder=t(el.dataset.tp);});
     document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
     document.title=t("brand");
+    $("langLabel").textContent=lang==="ar"?"English":"العربية";
+    $("greet").title=t("editName");
     $("dayname").textContent=fromIso(dateInput.value).toLocaleDateString(loc(),{weekday:"long"});
     paintCount();paintPhotos();renderMine();greet();paintDate();requestAnimationFrame(growAll);
     if(!$("viewPast").hidden)renderPast();
     if(!$("qWrap").hidden)showMemory();
   }
   function applyTheme(){
-    const th=["system","light","dark"].indexOf(profile.theme)>=0?profile.theme:"light";
-    if(th==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",th);
-    document.querySelectorAll("[data-theme-opt]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.themeOpt===th));
-    const dark=th==="dark"||(th==="system"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
+    const th=profile.theme==="dark"?"dark":"light";
+    document.documentElement.setAttribute("data-theme",th);
+    const dark=th==="dark";
+    $("themeBtn").setAttribute("aria-pressed",dark);
     const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",dark?"#1d1915":"#4f6a47");
   }
-  document.querySelectorAll("[data-theme-opt]").forEach(b=>b.addEventListener("click",()=>{profile.theme=b.dataset.themeOpt;saveProfile();applyTheme();}));
-  try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme);}catch(e){}
+  $("themeBtn").onclick=()=>{profile.theme=profile.theme==="dark"?"light":"dark";saveProfile();applyTheme();};
+  $("langBtn").onclick=()=>{closeMenu();setLang(lang==="ar"?"en":"ar");};
   function setLang(l){lang=l==="ar"?"ar":"en";profile.lang=lang;saveProfile();applyLang();}
   document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
-  $("setName").value=profile.name||"";
-  $("setName").addEventListener("change",()=>{profile.name=$("setName").value.trim().slice(0,30);saveProfile();greet();toast(t("nameSaved"));});
+  // tap the greeting to change your name
+  $("greet").onclick=()=>{const g=$("greet"),e=$("greetEdit");e.value=profile.name||"";g.hidden=true;e.hidden=false;e.focus();};
+  function endName(save){const g=$("greet"),e=$("greetEdit");if(e.hidden)return;if(save){profile.name=e.value.trim().slice(0,30);saveProfile();toast(t("nameSaved"));}e.hidden=true;g.hidden=false;greet();}
+  $("greetEdit").addEventListener("keydown",ev=>{if(ev.key==="Enter"){ev.preventDefault();endName(true);}if(ev.key==="Escape")endName(false);});
+  $("greetEdit").addEventListener("blur",()=>endName(true));
   function maybeQuote(){try{if(localStorage.getItem("plannerui:quoteSeen")!==iso(new Date()))setTimeout(openQuote,250);}catch(e){}}
   $("welcomeForm").onsubmit=e=>{e.preventDefault();profile.name=$("wName").value.trim().slice(0,30);profile.welcomed=true;saveProfile();
-    $("setName").value=profile.name;$("welcome").hidden=true;greet();maybeQuote();};
+    $("welcome").hidden=true;greet();maybeQuote();};
 
   load();
   applyTheme();
