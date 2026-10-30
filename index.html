@@ -1003,7 +1003,7 @@ body.typing .bottomnav{transform:translateY(100%);transition:transform .2s}
   if(!profile.welcomed){$("welcome").hidden=false;setTimeout(()=>$("wName").focus(),200);}else maybeQuote();
 
   // anonymous open counter (GoatCounter, no cookies). Runs only on the real site, once per app open.
-  if(/\.github\.io$|\.netlify\.app$/.test(location.hostname)){
+  if(/\.github\.io$|\.netlify\.app$|\.pages\.dev$/.test(location.hostname)){
     try{const i=new Image();i.src="https://daily-planner-stats.goatcounter.com/count?p=%2Fapp&t=Daily%20Planner&rnd="+Math.random().toString(36).slice(2);}catch(e){}
   }
 
